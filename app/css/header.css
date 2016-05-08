@@ -1,0 +1,21 @@
+.header {
+    background-color: whitesmoke;
+    display: block;
+    padding: 15px 15px 25px 15px;
+}
+
+.header .logo {
+    font-weight: bold;
+}
+
+.header .login {
+    float: right;
+}
+
+
+.footer {
+    background-color: whitesmoke;
+    display: block;
+    padding: 15px;
+    text-align: center;
+}
