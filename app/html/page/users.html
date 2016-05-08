@@ -1,0 +1,5 @@
+<div class="users-page" ng-controller="UserListCtrl as userListCtrl">
+    <div ng-repeat="user in userListCtrl.getAllUsers()">
+        {{ ($index+1) + ': ' + user.username }}
+    </div>
+</div>

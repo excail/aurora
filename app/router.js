@@ -10,4 +10,10 @@ angular.module('router', ['ngRoute'])
             .when('/welcome', {
                 templateUrl: './html/page/welcome.html'
             })
+            .when('/signup', {
+                templateUrl: './html/page/signup.html'
+            })
+            .when('/users', {
+                templateUrl: './html/page/users.html'
+            })
     });

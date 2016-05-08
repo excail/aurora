@@ -19,3 +19,17 @@
     padding: 15px;
     text-align: center;
 }
+
+.header-navbar {
+    padding-left: 40px;
+}
+
+.header .logged-as {
+    background-color: white;
+    font-weight: bold;
+    padding: 0 15px;
+}
+
+.home-page, .login-page, .signup-page, .users-page, .welcome-page {
+    padding: 20px 0;
+}

@@ -1,0 +1,13 @@
+<div class="signup-page">
+    Create a new account<br />
+    <form method="post" ng-submit="authCtrl.createUser()">
+        <input type="text" placeholder="name" name="name" ng-model="authCtrl.newUserData.user"><br/>
+        <input type="text" placeholder="username" name="username" ng-model="authCtrl.newUserData.username"><br/>
+        <input type="password" placeholder="password" name="password" ng-model="authCtrl.newUserData.password"><br/>
+        <button type="submit">Signup</button>
+    </form>
+
+    <div ng-if="authCtrl.errors.signup">
+        {{ authCtrl.errors.signup }}
+    </div>
+</div>

@@ -1,16 +1,18 @@
-<div ng-switch="authCtrl.isLoggedIn">
-    <div ng-switch-when="false">
-        <form method="post" ng-submit="authCtrl.doLogin()">
-            <input type="text" placeholder="username" name="username" ng-model="authCtrl.loginData.username">
-            <input type="password" placeholder="password" name="password" ng-model="authCtrl.loginData.password">
-            <button type="submit">Log In</button>
-        </form>
-        <div ng-if="!authCtrl.isPending && authCtrl.info.error.login">
-            {{ authCtrl.info.error.login }}
+<div class="login-form" ng-controller="LoginFormCtrl as loginFormCtrl">
+    <div ng-switch="authCtrl.isLoggedIn">
+        <div ng-switch-when="false">
+            <form method="post" ng-submit="authCtrl.doLogin()">
+                <input type="text" placeholder="username" name="username" ng-model="authCtrl.loginUserData.username">
+                <input type="password" placeholder="password" name="password" ng-model="authCtrl.loginUserData.password">
+                <button type="submit" ng-disabled="loginFormCtrl.isInvalid(authCtrl.loginUserData)">Log In</button>
+            </form>
+            <div ng-if="authCtrl.errors.login">
+                {{ authCtrl.errors.login }}
+            </div>
         </div>
-    </div>
-    <div ng-switch-when="true">
-        logged as: {{ authCtrl.currentUser.username }}
-        <a href="" ng-click="authCtrl.doLogout()">Logout</a>
+        <div ng-switch-when="true">
+            <span class="logged-as">{{ authCtrl.currentUser.username }}</span>
+            <span ng-include src="'html/template/headerNavBar.tpl.html'"></span>
+        </div>
     </div>
 </div>

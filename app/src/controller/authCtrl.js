@@ -1,73 +1,56 @@
-angular.module('authCtrl', ['userService'])
-    .controller('AuthCtrl', function ($rootScope, $location, $window, Auth, User) {
-        var self = this;
+angular.module('authCtrl', ['userService']).controller('AuthCtrl', function ($rootScope, $location, $window, Auth, User) {
 
-        this.currentUser = null;
-        this.allUsers = null;
-        this.loginData = {};
-        this.userData = {};
-        this.isPending = false;
-        this.isLoggedIn = Auth.isLoggedIn();
-        this.info = {
-            error: {
-                login: '',
-                signup: ''
-            },
-            message: {
-                signup: ''
-            }
-        };
+    var self = this;
 
-        this.doLogin = function () {
-            self.isPending = true;
-            self.info.error.login = '';
+    this.currentUser = null;
+    this.loginUserData = {};
+    this.newUserData = {};
+    this.errors = {login: '', signup: ''};
+    this.isLoggedIn = Auth.isLoggedIn();
 
-            Auth.login(self.loginData.username, self.loginData.password).success(function (data) {
-                self.isPending = false;
-                Auth.getUser().then(function (data) {
-                    self.curentUser = data.data;
-                });
+    var invalidateForm = function () {
+        self.errors.login = '';
+        self.loginUserData = {};
+    };
 
-                if (data.success) {
-                    $location.path('/home');
-                } else {
-                    self.info.error.login = data.message;
-                }
-            })
-        };
-
-        this.doLogout = function () {
-            Auth.logout();
-            $location.path('/');
-        };
-
-        this.getAllUsers = function () {
-            User.getAll().success(function (data) {
-                self.allUsers = data;
-            });
-        };
-
-        this.createUser = function () {
-            User.createNew(self.userData).then(function (response) {
-                self.userData = {};
-                self.info.message.signup = response.data.message;
-
-                $window.localStorage.setItem('token', response.data.token);
-                $location.path('/welcome');
-            }, function (error) {
-                if (error) {
-                    self.info.error.signup = error.message;
-                }
-            });
-        };
-
-
-        $rootScope.$on('$routeChangeStart', function () {
-            self.isLoggedIn = Auth.isLoggedIn();
-
+    this.doLogin = function () {
+        Auth.login(self.loginUserData.username, self.loginUserData.password).success(function (data) {
+            invalidateForm();
             Auth.getUser().then(function (data) {
-                self.currentUser = data.data;
+                self.curentUser = data.data;
             });
-        });
+            if (data.success) {
+                $location.path('/home');
+            } else {
+                self.errors.login = data.message;
+            }
+        })
+    };
 
+    this.doLogout = function () {
+        Auth.logout();
+        $location.path('/');
+    };
+
+    this.createUser = function () {
+        User.createNew(self.newUserData).then(function (response) {
+            self.newUserData = {};
+            $window.localStorage.setItem('token', response.data.token);
+            $location.path('/welcome');
+        }, function (error) {
+            if (error) {
+                self.errors.signup = error.message;
+            }
+        });
+    };
+
+    $rootScope.$on('$routeChangeStart', function () {
+        self.isLoggedIn = Auth.isLoggedIn();
+        invalidateForm();
+
+        Auth.getUser().then(function (data) {
+            self.currentUser = data.data;
+        });
     });
+
+});

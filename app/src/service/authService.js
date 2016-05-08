@@ -44,7 +44,6 @@ angular.module('authService', [])
                 $window.localStorage.removeItem('token');
             }
         };
-
         return authTokenFactory;
     })
     .factory('AuthInterceptor', function ($q, $location, authToken) {
@@ -52,11 +51,9 @@ angular.module('authService', [])
 
         interceptorFactory.request = function (config) {
             var token = authToken.getToken();
-
             if (token) {
                 config.headers['x-access-token'] = token;
             }
-
             return config;
         };
 
